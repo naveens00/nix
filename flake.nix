@@ -20,28 +20,21 @@
       inherit (self) outputs;
 
       appleSystems = [
-        "aarch64-darwin"
         "x86_64-darwin"
       ];
       linuxSystems = [
-        "aarch64-linux"
-        "i686-linux"
         "x86_64-linux"
       ];
       allSystems = linuxSystems ++ appleSystems;
       forSystems = (systemList: nixpkgs.lib.genAttrs systemList);
     in
     {
-      homeConfigurations = { 
-        aarch64-darwin = hm-standalone-system "aarch64-darwin" ;
-        x86_64-darwin = hm-standalone-system "x86_64-darwin" ;
-        aarch64-linux = hm-standalone-system "aarch64-linux";
-        i686-linux = hm-standalone-system "i686-darwin";
+      homeConfigurations = {
+        x86_64-darwin = hm-standalone-system "x86_64-darwin";
         x86_64-linux = hm-standalone-system "x86_64-linux";
       };
 
       darwinConfigurations = {
-        aarch64-darwin = darwin-system "aarch64-darwin";
         x86_64-darwin = darwin-system "x86_64-darwin";
       };
 
