@@ -1,16 +1,5 @@
-# This is your home-manager configuration file
-# Use this to configure your home environment (it replaces ~/.config/nixpkgs/home.nix)
+{ self, inputs, outputs, lib, config, pkgs, ... }:
 {
-  self,
-  inputs,
-  outputs,
-  lib,
-  config,
-  pkgs,
-  ...
-}: let
-  mapPrefixPath = prefix: map (x: "${prefix}/${x}");
-in {
   nixpkgs = {
     # Configure your nixpkgs instance
     config = {
@@ -26,27 +15,19 @@ in {
     homeDirectory = "/Users/naveen";
   };
 
-  imports = mapPrefixPath (self + /home-manager/modules) [
-    "terminal.nix"
-    "neovim.nix"
-    #"python.nix"
-  ];
-
-  # Allow home-manager to install fonts
   fonts.fontconfig.enable = true;
 
-  # Add stuff for your user as you see fit:
   home.packages = with pkgs; [
-    # Command line applications
     neofetch
     bat
     tree
-    # Nix
-    nixfmt
+
     # Fonts
     noto-fonts-emoji
-    (pkgs.nerdfonts.override {fonts = ["JetBrainsMono"];})
+    (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
+
+  programs.zsh.enable = true;
 
   programs.direnv = {
     enable = true;
@@ -60,7 +41,7 @@ in {
 
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
-  programs.starship.enable = true;
+  
   # https://nixos.wiki/wiki/FAQ/When_do_I_update_stateVersion
   home.stateVersion = "23.05";
 }
